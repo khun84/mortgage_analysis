@@ -28,7 +28,15 @@ gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
+# use Finance to run mortgage analysis
+gem 'finance'
+# use Figaro for secret key management
+gem 'figaro'
+# use Facebook Oauth for Facebook login
+gem 'omniauth-facebook'
+# use Omniauth to support facebook oauth login
+gem 'omniauth'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
