@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>MortgageAnalysis</title>
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+</head>
 
-  <body>
+<body>
+    <% if signed_in? %>
+        <%= form_for :sign_out, url: sign_out_path, method: :delete do |f| %>
+            <%= f.submit 'Sign out' %>
+        <% end %>
+
+        <p>
+            Sign in as <%= current_user.name %>
+        </p>
+    <% else %>
+        <%= form_for :sign_up, url: '/auth/facebook' do |f| %>
+            <% f.submit 'Sign up' %>
+        <% end %>
+    <% end %>
+
+    <p>
+        <%= flash[:notice] %>
+    </p>
+
+    <p>
+        <%= flash[:error] %>
+    </p>
+
+
+
     <%= yield %>
-  </body>
+</body>
 </html>
