@@ -1,7 +1,5 @@
 <%= render partial: 'project', locals: {project: @project} %>
 
-
-
 <%= form_for :project, url: edit_project_path(@project.id), method: :get do |f| %>
     <%= f.submit 'Edit project' %>
 <% end %>

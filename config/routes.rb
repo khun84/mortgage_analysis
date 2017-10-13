@@ -12,4 +12,6 @@ Rails.application.routes.draw do
     resources :projects do
         resources :scenarios
     end
+
+    get '/scenarios/new' => 'scenarios#create', as: :new_scenario
 end
