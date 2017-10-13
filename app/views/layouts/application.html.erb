@@ -10,6 +10,8 @@
 
 <body>
     <% if signed_in? %>
+
+        <%= link_to 'Projects', projects_path %>
         <%= form_for :sign_out, url: sign_out_path, method: :delete do |f| %>
             <%= f.submit 'Sign out' %>
         <% end %>
