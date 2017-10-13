@@ -14,11 +14,6 @@ class User < ApplicationRecord
         return user
     end
 
-    def get_listings_reservations
-        listings_ids = self.listings.pluck(:id)
-        Reservation.where("listing_id in (?)", listings_ids)
-    end
-
     # grab fb_token to access Facebook for user data
     def fb_token
         x = self.authentications.find_by(provider: 'facebook')
