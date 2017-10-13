@@ -3,5 +3,6 @@ class Project < ApplicationRecord
     validates :description, length: {maximum: 200, too_long: "%{count} characteres is the maximum allowed"}
 
     belongs_to :user
-    has_many :scenarios
+    has_many :scenarios, dependent: :destroy
+
 end
