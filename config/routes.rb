@@ -3,9 +3,13 @@ Rails.application.routes.draw do
     # FACEBOOK AUTHENTICATION
     get "/auth/:provider/callback" => "sessions#create_from_omniauth"
     root 'static#index'
-    resources :users
 
     post '/sign_up' => 'sessions#create_from_omniauth', as: :sign_up
     post '/sign_in' => 'sessions#create_from_omniauth', as: :sign_in
     delete '/sign_out' => 'sessions#destroy', as: :sign_out
+
+    resources :users
+    resources :projects do
+        resources :scenarios
+    end
 end

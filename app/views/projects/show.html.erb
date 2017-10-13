@@ -1,0 +1,15 @@
+<%= render partial: 'project', locals: {project: @project} %>
+
+
+
+<%= form_for :project, url: edit_project_path(@project.id), method: :get do |f| %>
+    <%= f.submit 'Edit project' %>
+<% end %>
+
+<%= form_for :project, url: project_path(@project.id), method: :delete do |f| %>
+    <%= f.submit 'Delete project', data: { confirm: 'Are you sure?'} %>
+<% end %>
+
+<%= form_for :scenario, url: project_path(@project.id), method: :delete do |f| %>
+    <%= f.submit 'Delete project', data: { confirm: 'Are you sure?'} %>
+<% end %>

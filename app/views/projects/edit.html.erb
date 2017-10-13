@@ -1,0 +1,11 @@
+<%= form_for :project, url: project_path(@project.id), method: :update do |f| %>
+    <%= f.label :title %>
+    <br>
+    <%= f.text_field :title, value: @project.title, size: "20", maxlength: 20 %>
+    <br>
+    <%= f.label :description %>
+    <br>
+    <%= f.text_area :description, value: @project.description, size: "100", maxlength: 200 %>
+    <br>
+    <%= f.submit 'Confirm' %>
+<% end %>

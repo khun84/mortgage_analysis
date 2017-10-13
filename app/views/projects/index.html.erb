@@ -1,0 +1,20 @@
+<h1>
+    Your Projects
+</h1>
+
+<%= form_for :project, url: projects_path, method: :post do |f| %>
+    <%= f.label :title %>
+    <br>
+    <%= f.text_field :title, size: "20", maxlength: 20 %>
+    <br>
+    <%= f.label :description %>
+    <br>
+    <%= f.text_area :description, size: "100", maxlength: 200 %>
+    <br>
+    <%= f.submit 'New project' %>
+<% end %>
+<br>
+
+
+<%= render partial: 'project', collection: @projects%>
+

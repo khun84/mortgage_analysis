@@ -4,12 +4,14 @@
     <title>MortgageAnalysis</title>
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track'=> 'reload' %>
 </head>
 
 <body>
     <% if signed_in? %>
+
+        <%= link_to 'Projects', projects_path %>
         <%= form_for :sign_out, url: sign_out_path, method: :delete do |f| %>
             <%= f.submit 'Sign out' %>
         <% end %>
@@ -23,11 +25,11 @@
         <% end %>
     <% end %>
 
-    <p>
+    <p class="notice-msg">
         <%= flash[:notice] %>
     </p>
 
-    <p>
+    <p class="error-msg">
         <%= flash[:error] %>
     </p>
 
