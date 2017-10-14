@@ -1,0 +1,30 @@
+<%= form_for :scenario, url: new_scenario_path do |f| %>
+    <%= f.label :deposit, 'Deposit in %' %>
+    <br>
+    <%= f.number_field :deposit, value: @default.deposit.base, min: @default.deposit.min %>
+    <br>
+    <%= f.label :buying_price, "Total buying price (unit in '000)" %>
+    <br>
+    <%= f.number_field :buying_price, value: @default.buying_price.base, min: @default.buying_price.min %>
+    <br>
+    <%= f.label :tenure, 'Tenure (yrs)' %>
+    <%= f.range_field :tenure, type: 'range', id:'tenureInput', min: @default.tenure.min, max: @default.tenure.max,
+                      value: @default.tenure.base, step: 1, oninput: "tenureOutput.value = tenureInput.value" %>
+    <br>
+    <output id="tenureOutput">30</output>
+    <br>
+    <%= f.label :selling_price, "Selling price (unit in '000)" %>
+    <br>
+    <%= f.number_field :selling_price, value: @default.selling_price.base, min: @default.selling_price.min %>
+    <br>
+    <%= f.label :holding_period, "Holding period (yr)" %>
+    <br>
+    <%= f.range_field :holding_period, type: 'range', id:'holdingPeriodInput', min: @default.holding_period.min,
+                      max: @default.holding_period.max, value: @default.holding_period.base, step: 1,
+                      oninput: "holdingPeriodOutput.value = holdingPeriodInput.value" %>
+    <br>
+    <output id="holdingPeriodOutput"><%= @default.holding_period.base %></output>
+    <br>
+    <%= f.submit "Submit" %>
+
+<% end %>
