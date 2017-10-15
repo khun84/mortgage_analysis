@@ -2,12 +2,12 @@ class Scenario < ApplicationRecord
     include Finance
     include ScenariosExtension
 
-    validates :deposit, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: Default.deposit.min, less_than_or_equal_to: Default.deposit.max}
-    validates :interest, presence: true, numericality: {greater_than: Default.interest.min, less_than_or_equal_to: Default.interest.max}
-    validates :buying_price, presence: true, numericality: {only_integer: true, greater_than: Default.buying_price.min}
-    validates :selling_price, presence: true, numericality: {only_integer: true, greater_than: Default.selling_price.min}
-    validates :tenure, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: Default.tenure.min, less_than_or_equal_to: Default.tenure.max}
-    validates :holding_period, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: Default.holding_period.min, less_than_or_equal_to: Default.holding_period.max}
+    validates :deposit, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.deposit.min, less_than_or_equal_to: DefaultInput.deposit.max}
+    validates :interest, presence: true, numericality: {greater_than: DefaultInput.interest.min, less_than_or_equal_to: DefaultInput.interest.max}
+    validates :buying_price, presence: true, numericality: {only_integer: true, greater_than: DefaultInput.buying_price.min}
+    validates :selling_price, presence: true, numericality: {only_integer: true, greater_than: DefaultInput.selling_price.min}
+    validates :tenure, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.tenure.min, less_than_or_equal_to: DefaultInput.tenure.max}
+    validates :holding_period, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.holding_period.min, less_than_or_equal_to: DefaultInput.holding_period.max}
 
     belongs_to :project
 
@@ -18,7 +18,7 @@ class Scenario < ApplicationRecord
 
         begin
             self.irr = (calculate_irr(0, 0.15, self.cf_mortgage) * 12 * 100)
-        rescue RuntimeError, ArgumentError
+        rescue RuntimeError
             self.errors.messages[:irr] << 'Invalid cashflow or the IRR is less than 0 or more than 130.'
             return false
         end
@@ -31,7 +31,7 @@ class Scenario < ApplicationRecord
     end
 
     def cf_down_payment
-        cash_flow_builder(amt: -DecNum(self.down_payment), pos_arr: [0])
+        cash_flow_builder(amt: -self.down_payment, pos_arr: [0])
     end
 
     def cf_repayment
@@ -62,12 +62,12 @@ class Scenario < ApplicationRecord
     end
 
     def basic_analysis_input!
-        self.buying_price = Default.buying_price.base
-        self.deposit = Default.deposit.base
-        self.interest = Default.interest.base
-        self.tenure = Default.tenure.base
-        self.selling_price = Default.selling_price.base
-        self.holding_period = Default.holding_period.base
+        self.buying_price = DefaultInput.buying_price.base
+        self.deposit = DefaultInput.deposit.base
+        self.interest = DefaultInput.interest.base
+        self.tenure = DefaultInput.tenure.base
+        self.selling_price = DefaultInput.selling_price.base
+        self.holding_period = DefaultInput.holding_period.base
         return true
     end
 
@@ -190,6 +190,17 @@ class Scenario < ApplicationRecord
         amounts.each_with_index.reduce(0) do |sum, (amount, index)|
             sum + amount * (1+rate)**(len - index)
         end
+    end
+
+    def get_input
+        input = DefaultInput.new
+        input.buying_price.base = self.buying_price
+        input.selling_price.base= self.selling_price
+        input.deposit.base = self.deposit
+        input.interest.base = self.interest
+        input.tenure.base = self.tenure
+        input.holding_period.base= self.holding_period
+        return input
     end
 
 

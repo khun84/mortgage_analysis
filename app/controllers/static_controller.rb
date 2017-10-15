@@ -1,7 +1,7 @@
 class StaticController < ApplicationController
     def index
         # initiate the default inputs variable
-        @default = ScenariosExtension::Default
-        render 'home'
+        default_input = ScenariosExtension::DefaultInput.new
+        render 'home', locals: {input: default_input}
     end
 end

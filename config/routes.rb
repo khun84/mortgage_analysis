@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     post '/sign_in' => 'sessions#create_from_omniauth', as: :sign_in
     delete '/sign_out' => 'sessions#destroy', as: :sign_out
 
+    post '/scenario' => 'scenarios#create', as: :create_scenario
+
     resources :users
     resources :projects do
         resources :scenarios

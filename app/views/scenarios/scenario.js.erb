@@ -1,0 +1,7 @@
+clearMsg();
+<% if @success %>
+    $('#output-irr').html(<%= @scenario.irr.round(2) %>);
+<% else %>
+    $('#output-irr').html('-');
+    $('#error-msg').html('<%= flash[:error] %>');
+<% end %>
