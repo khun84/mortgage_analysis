@@ -17,7 +17,7 @@ class Scenario < ApplicationRecord
         @amortization = Amortization.new(loan_amt, rate)
 
         begin
-            self.irr = (calculate_irr(0, 0.15, self.cf_mortgage)*12*100).round(2)
+            self.irr = (calculate_irr(0, 0.15, self.cf_mortgage) * 12 * 100)
         rescue RuntimeError, ArgumentError
             self.errors.messages[:irr] << 'Invalid cashflow or the IRR is less than 0 or more than 130.'
             return false
@@ -161,25 +161,37 @@ class Scenario < ApplicationRecord
     end
 
     def calculate_irr(min_rate, max_rate, amounts)
-        range = max_rate - min_rate
-        raise RuntimeError if range <= Float::EPSILON * 2
+        while true
+            range = max_rate - min_rate
 
-        rate = range.fdiv(2) + min_rate
-        present_value = present_value_of_series(rate, amounts)
+            raise RuntimeError if range <= Float::EPSILON * 2
 
-        if present_value > 0
-            calculate_irr(rate, max_rate, amounts)
-        elsif present_value < -1
-            calculate_irr(min_rate, rate, amounts)
-        else
-            rate
+            rate = range.fdiv(2) + min_rate
+            present_value = npv(rate, amounts)
+
+            if present_value > 0
+                min_rate = rate
+            elsif present_value < -1
+                max_rate = rate
+            else
+                return rate
+            end
         end
     end
 
-    def present_value_of_series(rate, amounts)
+    def npv(rate, amounts)
         amounts.each_with_index.reduce(0) do |sum, (amount, index)|
-            sum + amount / (rate + 1)**index
+            sum + amount / ((rate + 1)**index)
         end
     end
+
+    def fv(rate, amounts)
+        len = amounts.length
+        amounts.each_with_index.reduce(0) do |sum, (amount, index)|
+            sum + amount * (1+rate)**(len - index)
+        end
+    end
+
+
 
 end
