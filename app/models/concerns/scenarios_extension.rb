@@ -2,7 +2,8 @@ module ScenariosExtension
 
     class DefaultInput
 
-        attr_accessor :buying_price, :selling_price, :deposit, :interest, :holding_period, :tenure
+        attr_accessor :buying_price, :selling_price, :deposit, :interest, :holding_period, :tenure,
+                      :rental_period, :rental, :purchase_transaction_cost, :sell_transaction_cost
 
         def initialize
             @buying_price = DefaultInput.buying_price
@@ -11,6 +12,10 @@ module ScenariosExtension
             @interest = DefaultInput.interest
             @holding_period = DefaultInput.holding_period
             @tenure = DefaultInput.tenure
+            @rental_period = DefaultInput.rental_period
+            @rental = DefaultInput.rental
+            @purchase_transaction_cost = DefaultInput.purchase_transaction_cost
+            @sell_transaction_cost = DefaultInput.sell_transaction_cost
         end
 
         DefaultData = Struct.new(:base, :min, :max)
@@ -45,5 +50,24 @@ module ScenariosExtension
             DefaultData.new(5, 1, 50)
         end
 
+        # unit in year
+        def self.rental_period
+            DefaultData.new(2, 1, 20)
+        end
+
+        # unit in '000 per year
+        def self.rental
+            DefaultData.new(12, 6, 500)
+        end
+
+        # unit in '000
+        def self.purchase_transaction_cost
+            DefaultData.new(5, 0, self.buying_price.max)
+        end
+
+        # unit in '000
+        def self.sell_transaction_cost
+            DefaultData.new(5, 0, self.selling_price.max)
+        end
     end
 end

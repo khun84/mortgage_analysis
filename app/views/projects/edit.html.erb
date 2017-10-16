@@ -1,4 +1,4 @@
-<%= form_for :project, url: project_path(@project.id), method: :update do |f| %>
+<%= form_for :project, url: project_path(@project.id), method: :patch do |f| %>
     <%= f.label :title %>
     <br>
     <%= f.text_field :title, value: @project.title, size: "20", maxlength: 20 %>
@@ -9,3 +9,5 @@
     <br>
     <%= f.submit 'Confirm' %>
 <% end %>
+
+<a href=<%= project_path(@project.id) %>>Back</a>
