@@ -9,3 +9,22 @@
 <% end %>
 
 <%= link_to 'New scenario', new_project_scenario_path(@project.id) %>
+
+
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Scenario name</th>
+        <th>Buying price</th>
+        <th>Selling price</th>
+        <th>Interest</th>
+        <th>Tenure</th>
+        <th>Holding period</th>
+        <th>Irr</th>
+    </tr>
+
+    <%= render partial: 'scenarios/scenario_summary', collection: @scenarios,
+               as: :scenario %>
+
+</table>

@@ -1,0 +1,3 @@
+<%= form_for :scenario, url: create_projects_scenario_path(@project.id), method: :post, remote: true do |f| %>
+    <%= render partial: 'form_scenario', locals: {input: @input, f: f} %>
+<% end %>

@@ -1,0 +1,16 @@
+<tr>
+    <td>
+        <a href=<%= project_scenario_path(scenario.project_id, scenario.id) %>>
+            <%= scenario.id %>
+        </a>
+    </td>
+    <td><%= scenario.name %></td>
+    <td><%= "#{scenario.buying_price}k" %></td>
+    <td><%= "#{scenario.selling_price}k" %></td>
+    <td><%= "#{scenario.interest}%" %></td>
+    <td><%= "#{scenario.tenure} yr" %></td>
+    <td><%= "#{scenario.holding_period} yr" %></td>
+    <td><%= "#{scenario.irr.try(:round ,2)}%" %></td>
+</tr>
+
+

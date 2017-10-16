@@ -1,4 +1,3 @@
-<%= form_for :scenario, url: analyse_scenario_path, method: :post, remote: true do |f| %>
     <%= f.label :deposit, 'Deposit %' %>
     <br>
     <%= f.number_field :deposit, value: input.deposit.base, min: input.deposit.min, max: input.deposit.max %>
@@ -65,9 +64,9 @@
     <!--end of advanced input-->
     <p>Irr %</p>
     <% if @scenario.present? %>
-        <p id="output-irr"><%= @scenario.irr.round(2) %></p>
+        <p id="output-irr"><%= @scenario.irr.try(:round, 2) %></p>
     <% else %>
         <p id="output-irr">-</p>
     <% end %>
-    <%= f.submit "Submit" %>
-<% end %>
+    <%= f.submit "Calculate" %>
+    <%= f.submit "Save" %>

@@ -2,22 +2,46 @@ class Scenario < ApplicationRecord
     include Finance
     include ScenariosExtension
 
-    validates :deposit, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.deposit.min, less_than_or_equal_to: DefaultInput.deposit.max}
-    validates :interest, presence: true, numericality: {greater_than: DefaultInput.interest.min, less_than_or_equal_to: DefaultInput.interest.max}
-    validates :buying_price, presence: true, numericality: {only_integer: true, greater_than: DefaultInput.buying_price.min}
-    validates :selling_price, presence: true, numericality: {only_integer: true, greater_than: DefaultInput.selling_price.min}
-    validates :tenure, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.tenure.min, less_than_or_equal_to: DefaultInput.tenure.max}
-    validates :holding_period, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.holding_period.min, less_than_or_equal_to: DefaultInput.holding_period.max}
+    validates :deposit, presence: true,
+              numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.deposit.min,
+                             less_than_or_equal_to: DefaultInput.deposit.max}
+    validates :interest, presence: true,
+              numericality: {greater_than: DefaultInput.interest.min, less_than_or_equal_to: DefaultInput.interest.max}
+    validates :buying_price, presence: true,
+              numericality: {only_integer: true, greater_than: DefaultInput.buying_price.min}
+    validates :selling_price, presence: true,
+              numericality: {only_integer: true, greater_than: DefaultInput.selling_price.min}
+    validates :tenure, presence: true,
+              numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.tenure.min,
+                             less_than_or_equal_to: DefaultInput.tenure.max}
+    validates :holding_period, presence: true,
+              numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.holding_period.min,
+                             less_than_or_equal_to: DefaultInput.holding_period.max}
+    validates :rental, presence: true,
+              numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.rental.min,
+                             less_than_or_equal_to: DefaultInput.rental.max}
+    validates :rental_start, presence: true,
+              numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.rental_period.min,
+                             less_than_or_equal_to: DefaultInput.rental_period.max}
+    validates :rental_end, presence: true,
+              numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.rental_period.min,
+                             less_than_or_equal_to: DefaultInput.rental_period.max}
+    validates :purchase_transaction_cost, presence: true,
+            numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.purchase_transaction_cost.min,
+                           less_than_or_equal_to: DefaultInput.purchase_transaction_cost.max}
+    validates :sell_transaction_cost, presence: true,
+              numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.sell_transaction_cost.min,
+                             less_than_or_equal_to: DefaultInput.sell_transaction_cost.max}
 
     belongs_to :project
 
-    attr_accessor :amortization, :irr
+    attr_accessor :amortization
 
     def basic_analysis!
         @amortization = Amortization.new(loan_amt, rate)
 
         begin
-            self.irr = (calculate_irr(0, 0.15, self.cf_mortgage_basic) * 12 * 100)
+            self.irr = calculate_irr(0, 0.15, self.cf_mortgage_basic) * 12 * 100
         rescue RuntimeError
             self.errors.messages[:irr] << 'Invalid cashflow or the IRR is less than 0 or more than 130.'
             return false
@@ -30,7 +54,7 @@ class Scenario < ApplicationRecord
         @amortization = Amortization.new(loan_amt, rate)
 
         begin
-            self.irr = (calculate_irr(0, 0.15, self.cf_mortgage_advance) * 12 * 100)
+            self.irr = calculate_irr(0, 0.15, self.cf_mortgage_advance) * 12 * 100
         rescue RuntimeError
             self.errors.messages[:irr] << 'Invalid cashflow or the IRR is less than 0 or more than 130.'
             return false
@@ -91,15 +115,15 @@ class Scenario < ApplicationRecord
         if self.rental_start_mth == self.rental_end_mth
             cash_flow_builder(amt: 0)
         elsif self.holding_period_mth > self.rental_end_mth
-            cash_flow_builder(amt: self.rental_mth, pos_arr:[self.rental_start_mth, self.rental_end_mth])
+            cash_flow_builder(amt: self.rental_mth, pos_arr:(self.rental_start_mth..self.rental_end_mth))
         else
-            cash_flow_builder(amt: self.rental_mth, pos_arr:[self.rental_start, self.holding_period_mth])
+            cash_flow_builder(amt: self.rental_mth, pos_arr:(self.rental_start..self.holding_period_mth))
         end
     end
     # ##########
 
     def rental_mth
-        self.rental*100/12
+        self.rental*1000/12
     end
 
     def rental_start_mth

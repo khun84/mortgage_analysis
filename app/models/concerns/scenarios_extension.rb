@@ -27,7 +27,7 @@ module ScenariosExtension
 
         # unit in '000
         def self.selling_price
-            DefaultData.new(600, 50, 200000)
+            DefaultData.new(800, 50, 200000)
         end
 
         # unit in %

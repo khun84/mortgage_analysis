@@ -1,21 +1,8 @@
 class ScenariosController < ApplicationController
-
+    include ScenariosHelper
     def analyse
-        @scenario = Scenario.new
-        # input for basic analysis
-        @scenario.deposit = scenario_params[:deposit].to_i
-        @scenario.buying_price = scenario_params[:buying_price].to_i
-        @scenario.interest = scenario_params[:interest].to_f
-        @scenario.tenure = scenario_params[:tenure].to_i
-        @scenario.holding_period = scenario_params[:holding_period].to_i
-        @scenario.selling_price = scenario_params[:selling_price].to_i
 
-        # input for advanced analysis
-        @scenario.sell_transaction_cost = scenario_params[:sell_transaction_cost].to_i
-        @scenario.purchase_transaction_cost = scenario_params[:purchase_transaction_cost].to_i
-        @scenario.rental = scenario_params[:rental].to_i
-        @scenario.rental_start = scenario_params[:rental_period_start].to_i
-        @scenario.rental_end = scenario_params[:rental_period_end].to_i
+        @scenario = create_scenario_from_input(params: scenario_params)
 
         # if the analysis return error
         if signed_in?
@@ -31,16 +18,71 @@ class ScenariosController < ApplicationController
         # return the user input back to front end after page refreshed
         user_input = @scenario.get_input
 
+        if signed_in? && @success && params[:commit] == 'Save'
+            @scenario.project_id = params[:project_id]
+            if @scenario.save
+                # successfully save then redirect to the scenario show page
+                flash[:notice] = 'Scenario has been saved.'
+                redirect_to project_scenario_path(@scenario.project_id, @scenario.id)
+                return
+            else
+                # failed to save, show the error message and continue
+                flash[:error] = @scenario.errors.messages.to_s
+            end
+        end
 
+        # if not sign in, show analysis result using ajax
         respond_to do |format|
             format.html {render 'static/home', locals: {input: user_input}}
             format.js {render 'scenario'}
         end
+
     end
 
     def new
-        input = ScenariosExtension::DefaultInput.new
+        @input = ScenariosExtension::DefaultInput.new
+        @project = Project.find_by_id(params[:project_id])
         render 'new'
+    end
+
+    def show
+        @scenario = Scenario.find_by_id(params[:id])
+        @input = @scenario.get_input
+        render 'show'
+    end
+
+    def update
+        @scenario = create_scenario_from_input(id: params[:id], params: scenario_params)
+        @success = @scenario.advance_analysis!
+
+        if !@success
+            flash[:error] = @scenario.errors.messages[:irr]
+        end
+
+        if params[:commit] == 'Save'
+            if @scenario.save
+                flash[:notice] = 'Scenario has been updated!'
+            else
+                flash[:error] = @scenario.errors.messages
+            end
+        end
+
+        respond_to do |format|
+            format.html
+            format.js { render 'scenario' }
+        end
+
+    end
+
+    def destroy
+        scenario = Scenario.find_by_id(params[:id])
+        if scenario.destroy
+            flash[:notice] = 'Scenario has been deleted!'
+        else
+            flash[:error] = scenario.error.messages
+        end
+
+        redirect_to project_path(scenario.project_id)
     end
 
     private
@@ -49,6 +91,6 @@ class ScenariosController < ApplicationController
         params.require(:scenario).permit(:deposit, :buying_price, :selling_price,
                                          :interest, :holding_period, :tenure,
                                         :purchase_transaction_cost, :sell_transaction_cost, :rental,
-                                        :rental_period_start, :rental_period_end)
+                                        :rental_start, :rental_end)
     end
 end

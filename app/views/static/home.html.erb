@@ -1,1 +1,3 @@
-<%= render partial: 'scenarios/form_scenario', locals: {input: input} %>
+<%= form_for :scenario, url: analyse_scenario_path, method: :post, remote: true do |f| %>
+    <%= render partial: 'scenarios/form_scenario', locals: {input: input, f: f} %>
+<% end %>
