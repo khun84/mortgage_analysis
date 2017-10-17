@@ -9,7 +9,6 @@
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
-//
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
@@ -29,14 +28,27 @@ document.addEventListener("turbolinks:load", function (){
     });
 
     $('#spinner').hide();
-
+    $('#msg-button').hide();
     $(document)
-        .ajaxStart(function() {
+        .on("ajax:before", function() {
         $('#spinner').show();
         })
-        .ajaxStop(function() {
+        .on("ajax:complete", function() {
         $('#spinner').hide();
         });
+
+    //if flash message exist, show the message and button
+    $('#msg-container').on("DOMSubtreeModified",function () {
+        showMsg($('#error-msg'));
+        showMsg($('#notice-msg'));
+    });
+
+    //clear the flash message and hide the button
+    $('#msg-button').click(function (event) {
+        clearMsg();
+        $(event.target).hide();
+    });
+
 });
 
 //clear the flash messages
@@ -60,3 +72,11 @@ function getRentalPeriodStart() {
 function getRentalPeriodEnd() {
     return Number($('#scenario_rental_end').val())
 };
+
+function showMsg($msg) {
+    if($msg.html().length > 0){
+        console.log($msg.html().length);
+        $('#msg-button').show();
+    }
+}
+

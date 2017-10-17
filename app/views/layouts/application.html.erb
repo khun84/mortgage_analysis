@@ -33,13 +33,14 @@
         <% end %>
     <% end %>
 
-    <p id="notice-msg">
-        <%= flash[:notice] %>
-    </p>
+    <div id="msg-container">
 
-    <p id="error-msg">
-        <%= flash[:error] %>
-    </p>
+        <p id="notice-msg"><%= flash[:notice] %></p>
+
+        <p id="error-msg"><%= flash[:error] %></p>
+    </div>
+
+    <%= button_tag 'Dismiss message', id: 'msg-button' %>
 
     <p id="spinner">Loading....Please be patient....</p>
 

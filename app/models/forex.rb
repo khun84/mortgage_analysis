@@ -14,6 +14,7 @@ class Forex
         get_all_rates_and_base!
     end
 
+    # laod all the rates into instance variable
     def get_all_rates_and_base!
         data = JSON.parse open("https://openexchangerates.org/api/latest.json?app_id=#{ENV['FOREX_API_KEY']}").read
         data.deep_symbolize_keys!
@@ -28,6 +29,7 @@ class Forex
 
     end
 
+    # load the selected rates into instance variable
     def get_rates!
         if self.status
             Forex.forex_ticker.each do |key|
