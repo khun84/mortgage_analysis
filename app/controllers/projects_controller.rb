@@ -1,33 +1,34 @@
 class ProjectsController < ApplicationController
     include SessionsHelper
+    include ScenariosExtension
     before_action do
         # check sign in
         if !signed_in?
             flash[:error] = 'Please sign in to perform this action'
             redirect_back fallback_location: root_path
-            return false
         end
     end
 
     before_action only: [:show, :edit, :update, :destroy] do
+        continue = true
         # check resource existance
         project = Project.find_by(id: params[:id])
         if !project.present?
             flash[:error] = 'The project does not exist'
             redirect_back fallback_location: root_path
-            return false
+            continue = false
         end
 
         # check resource owner
-        if project.user_id != current_user.id
+        if continue && project.user_id != current_user.id
             flash[:error] = 'You do not have the permission to perform this action'
             redirect_back fallback_location: root_path
-            return false
         end
     end
 
     def index
         @projects = current_user.projects
+        @input = DefaultInput.new
         render 'index'
     end
 
@@ -59,6 +60,7 @@ class ProjectsController < ApplicationController
 
     def edit
         @project = Project.find_by_id(params[:id])
+        @input = DefaultInput.new
         render 'edit'
     end
 

@@ -1,7 +1,7 @@
 <%= form_for :scenario, url: create_projects_scenario_path(@project.id), method: :post, remote: true do |f| %>
     <%= f.label :name %>
     <br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, maxlength: @input.scenario_name.max %>
     <%= render partial: 'form_scenario', locals: {input: @input, f: f} %>
 <% end %>
 

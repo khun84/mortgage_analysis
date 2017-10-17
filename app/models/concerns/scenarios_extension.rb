@@ -3,7 +3,8 @@ module ScenariosExtension
     class DefaultInput
 
         attr_accessor :buying_price, :selling_price, :deposit, :interest, :holding_period, :tenure,
-                      :rental_period, :rental, :purchase_transaction_cost, :sell_transaction_cost
+                      :rental_period, :rental, :purchase_transaction_cost, :sell_transaction_cost,
+                      :project_name, :scenario_name, :project_description
 
         def initialize
             @buying_price = DefaultInput.buying_price
@@ -16,9 +17,24 @@ module ScenariosExtension
             @rental = DefaultInput.rental
             @purchase_transaction_cost = DefaultInput.purchase_transaction_cost
             @sell_transaction_cost = DefaultInput.sell_transaction_cost
+            @project_name = DefaultInput.project_name
+            @scenario_name = DefaultInput.scenario_name
+            @project_description = DefaultInput.project_description
         end
 
         DefaultData = Struct.new(:base, :min, :max)
+
+        def self.project_name
+            DefaultData.new("Project #{SecureRandom.hex(5)}", 3, 20)
+        end
+
+        def self.project_description
+            DefaultData.new("Description", 0, 200)
+        end
+
+        def self.scenario_name
+            DefaultData.new("Scenario #{SecureRandom.hex(5)}", 3, 20)
+        end
 
         # unit in '000
         def self.buying_price
@@ -70,4 +86,40 @@ module ScenariosExtension
             DefaultData.new(5, 0, self.selling_price.max)
         end
     end
+
+    module Search
+        extend ActiveSupport::Concern
+
+        module ClassMethods
+            def search(params={})
+                joins(:project).project_name(params.dig(:project_name))
+                        .scenario_name(params.dig(:scenario_name)).irr(params.dig(:irr))
+            end
+
+            def project_name(name)
+                if name.present?
+                    where("projects.name ilike ?", "%#{name}%")
+                else
+                    all
+                end
+            end
+
+            def scenario_name(name)
+                if name.present?
+                    where("scenarios.name ilike ?", "%#{name}%")
+                else
+                    all
+                end
+            end
+
+            def irr(irr)
+                if irr.present?
+                    where("scenarios.irr >= ?", irr)
+                else
+                    all
+                end
+            end
+        end
+    end
+
 end

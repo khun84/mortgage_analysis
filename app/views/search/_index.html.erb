@@ -1,0 +1,9 @@
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Project Name</th>
+        <th>Scenario Name</th>
+        <th>IRR %</th>
+    </tr>
+    <%= render(partial: 'search/search_result', collection: @scenarios, as: :scenario).html_safe %>
+</table>

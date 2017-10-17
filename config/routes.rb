@@ -12,8 +12,8 @@ Rails.application.routes.draw do
     post '/projects/:project_id/scenarios/new' => 'scenarios#analyse', as: :create_projects_scenario
     patch '/projects/:project_id/scenarios/:id' => 'scenarios#update', as: :update_projects_scenario
 
-    get '/search' => 'search#new', as: :search
-    get '/search/new' => 'search#show', as: :show_search
+    get '/search' => 'search#new_search', as: :new_search
+    get '/search/show' => 'search#show_search', as: :show_search
 
     resources :users
     resources :projects do

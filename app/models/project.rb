@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
-    validates :title, presence: true, length: {in: 6..20}
-    validates :description, length: {maximum: 200, too_long: "%{count} characteres is the maximum allowed"}
+    include ScenariosExtension
+    validates :title, presence: true, length: {in: DefaultInput.project_name.min..DefaultInput.project_name.max}
+    validates :description, length: {maximum: DefaultInput.project_description.max, too_long: "%{count} characteres is the maximum allowed"}
 
     belongs_to :user
     has_many :scenarios, dependent: :destroy
