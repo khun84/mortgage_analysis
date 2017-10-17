@@ -1,0 +1,16 @@
+<%= form_for :search, url: show_search_path, method: :get, remote: true do |f| %>
+    <%= f.label :project_name %>
+    <%= f.text_field :project_name, maxlength: @input.project_name.max %>
+    <br>
+    <%= f.label :scenario_name %>
+    <%= f.text_field :scenario_name, maxlength: @input.project_name.max %>
+    <br>
+    <%= f.label :irr, "IRR % >=" %>
+    <%= f.number_field :irr , min: 0%>
+    <br>
+    <%= f.submit 'Search' %>
+<% end %>
+
+<div id="search-results-container">
+
+</div>

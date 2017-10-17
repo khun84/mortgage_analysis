@@ -6,27 +6,29 @@ class ScenariosController < ApplicationController
         if !signed_in?
             flash[:error] = 'Please sign in to perform this action'
             redirect_back fallback_location: root_path
-            return false
+
         end
     end
 
     before_action only: [:show, :edit, :update, :destroy] do
+        continue = true
         # check resource existance
         scenario = Scenario.find_by(id: params[:id])
         if !scenario.present?
             flash[:error] = 'The scenario does not exist'
             redirect_back fallback_location: root_path
-            return false
+            continue = false
         end
 
         # check resource owner
-        if scenario.project.user_id != current_user.id
+        if continue && scenario.project.user_id != current_user.id
             flash[:error] = 'You do not have the permission to perform this action'
             redirect_back fallback_location: root_path
-            return false
         end
     end
 
+    # this action is responsible for analysis calculation for all type of users
+    # this action is also responsible for saving new scenario for regiestered users
     def analyse
 
         @scenario = create_scenario_from_input(params: scenario_params)

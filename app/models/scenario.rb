@@ -1,7 +1,9 @@
 class Scenario < ApplicationRecord
     include Finance
     include ScenariosExtension
+    include ScenariosExtension::Search
 
+    validates :name, presence: true, length: {maximum: DefaultInput.scenario_name.max }
     validates :deposit, presence: true,
               numericality: {only_integer: true, greater_than_or_equal_to: DefaultInput.deposit.min,
                              less_than_or_equal_to: DefaultInput.deposit.max}
