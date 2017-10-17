@@ -21,6 +21,7 @@
         <%= form_for :sign_out, url: sign_out_path, method: :delete do |f| %>
             <%= f.submit 'Sign out' %>
         <% end %>
+        <%= link_to 'Search', search_path %>
 
         <p>
             Sign in as <%= current_user.name %>

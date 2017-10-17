@@ -1,5 +1,32 @@
 class ScenariosController < ApplicationController
     include ScenariosHelper
+
+    before_action except: :analyse do
+        # check sign in
+        if !signed_in?
+            flash[:error] = 'Please sign in to perform this action'
+            redirect_back fallback_location: root_path
+            return false
+        end
+    end
+
+    before_action only: [:show, :edit, :update, :destroy] do
+        # check resource existance
+        scenario = Scenario.find_by(id: params[:id])
+        if !scenario.present?
+            flash[:error] = 'The scenario does not exist'
+            redirect_back fallback_location: root_path
+            return false
+        end
+
+        # check resource owner
+        if scenario.project.user_id != current_user.id
+            flash[:error] = 'You do not have the permission to perform this action'
+            redirect_back fallback_location: root_path
+            return false
+        end
+    end
+
     def analyse
 
         @scenario = create_scenario_from_input(params: scenario_params)
@@ -88,7 +115,7 @@ class ScenariosController < ApplicationController
     private
 
     def scenario_params
-        params.require(:scenario).permit(:deposit, :buying_price, :selling_price,
+        params.require(:scenario).permit(:name, :deposit, :buying_price, :selling_price,
                                          :interest, :holding_period, :tenure,
                                         :purchase_transaction_cost, :sell_transaction_cost, :rental,
                                         :rental_start, :rental_end)

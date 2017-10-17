@@ -11,6 +11,8 @@
     <td><%= "#{scenario.tenure} yr" %></td>
     <td><%= "#{scenario.holding_period} yr" %></td>
     <td><%= "#{scenario.irr.try(:round ,2)}%" %></td>
+    <td><%= button_to 'Delete', project_scenario_path(scenario.id),
+                                      method: :delete, data: { confirm: 'Are you sure?'} %></td>
 </tr>
 
 

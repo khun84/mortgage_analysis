@@ -7,6 +7,7 @@ module ScenariosHelper
             scenario = Scenario.new
         end
         # input for basic analysis
+        scenario.name = params[:name]
         scenario.deposit = params[:deposit].to_i
         scenario.buying_price = params[:buying_price].to_i
         scenario.interest = params[:interest].to_f
