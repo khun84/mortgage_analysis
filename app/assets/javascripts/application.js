@@ -9,12 +9,13 @@
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
-//
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
 
 document.addEventListener("turbolinks:load", function (){
+    console.clear();
+    
     $( "#rental_period_slider" ).slider({
         range: true,
         values: [getRentalPeriodStart(),getRentalPeriodEnd()],
@@ -25,6 +26,29 @@ document.addEventListener("turbolinks:load", function (){
             $( "#scenario_rental_end" ).val(ui.values[ 1 ]);
         }
     });
+
+    $('#spinner').hide();
+    $('#msg-button').hide();
+    $(document)
+        .on("ajax:before", function() {
+        $('#spinner').show();
+        })
+        .on("ajax:complete", function() {
+        $('#spinner').hide();
+        });
+
+    //if flash message exist, show the message and button
+    $('#msg-container').on("DOMSubtreeModified",function () {
+        showMsg($('#error-msg'));
+        showMsg($('#notice-msg'));
+    });
+
+    //clear the flash message and hide the button
+    $('#msg-button').click(function (event) {
+        clearMsg();
+        $(event.target).hide();
+    });
+
 });
 
 //clear the flash messages
@@ -48,3 +72,11 @@ function getRentalPeriodStart() {
 function getRentalPeriodEnd() {
     return Number($('#scenario_rental_end').val())
 };
+
+function showMsg($msg) {
+    if($msg.html().length > 0){
+        console.log($msg.html().length);
+        $('#msg-button').show();
+    }
+}
+

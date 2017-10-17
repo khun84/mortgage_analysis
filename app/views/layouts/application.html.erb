@@ -19,6 +19,7 @@
 
         <%= link_to 'Projects', projects_path %>
         <%= link_to 'Search', new_search_path %>
+        <%= link_to 'Forex', forex_path %>
         <%= form_for :sign_out, url: sign_out_path, method: :delete do |f| %>
             <%= f.submit 'Sign out' %>
         <% end %>
@@ -32,13 +33,16 @@
         <% end %>
     <% end %>
 
-    <p id="notice-msg">
-        <%= flash[:notice] %>
-    </p>
+    <div id="msg-container">
 
-    <p id="error-msg">
-        <%= flash[:error] %>
-    </p>
+        <p id="notice-msg"><%= flash[:notice] %></p>
+
+        <p id="error-msg"><%= flash[:error] %></p>
+    </div>
+
+    <%= button_tag 'Dismiss message', id: 'msg-button' %>
+
+    <p id="spinner">Loading....Please be patient....</p>
 
 
 

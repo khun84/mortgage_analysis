@@ -1,0 +1,14 @@
+<table id="forex-table">
+    <tr>
+        <th>Currency</th>
+        <th>Rate</th>
+    </tr>
+
+    <% rates.each do |cur, rate| %>
+    <tr>
+        <td><%= cur %></td>
+        <td><%= rate %></td>
+    </tr>
+    <% end %>
+
+</table>
