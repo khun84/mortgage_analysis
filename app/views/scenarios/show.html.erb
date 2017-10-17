@@ -1,0 +1,13 @@
+<%= form_for :scenario, url: update_projects_scenario_path(@scenario.project_id, @scenario.id), method: :patch, remote: true do |f| %>
+    <%= f.label :name, 'Name' %>
+    <br>
+    <%= f.text_field :name %>
+    <br>
+    <%= render partial: 'form_scenario', locals: {input: @input, f: f} %>
+<% end %>
+
+<%= form_for :scenario, url: project_scenario_path(@scenario.project_id, @scenario.id), method: :delete do |f| %>
+    <%= f.submit 'Delete', data: { confirm: 'Are you sure?'} %>
+<% end %>
+
+<a href=<%= project_path(@scenario.project_id) %>>Back</a>

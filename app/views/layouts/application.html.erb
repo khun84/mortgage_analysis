@@ -6,15 +6,22 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track'=> 'reload' %>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 
 <body>
+    <%= link_to 'Home', root_path %>
     <% if signed_in? %>
 
         <%= link_to 'Projects', projects_path %>
         <%= form_for :sign_out, url: sign_out_path, method: :delete do |f| %>
             <%= f.submit 'Sign out' %>
         <% end %>
+        <%= link_to 'Search', search_path %>
 
         <p>
             Sign in as <%= current_user.name %>
@@ -25,11 +32,11 @@
         <% end %>
     <% end %>
 
-    <p class="notice-msg">
+    <p id="notice-msg">
         <%= flash[:notice] %>
     </p>
 
-    <p class="error-msg">
+    <p id="error-msg">
         <%= flash[:error] %>
     </p>
 

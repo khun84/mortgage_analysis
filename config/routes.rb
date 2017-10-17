@@ -8,9 +8,16 @@ Rails.application.routes.draw do
     post '/sign_in' => 'sessions#create_from_omniauth', as: :sign_in
     delete '/sign_out' => 'sessions#destroy', as: :sign_out
 
+    post '/scenario' => 'scenarios#analyse', as: :analyse_scenario
+    post '/projects/:project_id/scenarios/new' => 'scenarios#analyse', as: :create_projects_scenario
+    patch '/projects/:project_id/scenarios/:id' => 'scenarios#update', as: :update_projects_scenario
+
+    get '/search' => 'search#new', as: :search
+    get '/search/new' => 'search#show', as: :show_search
+
     resources :users
     resources :projects do
-        resources :scenarios
+        resources :scenarios, except: [:create, :update]
     end
 
     get '/scenarios/new' => 'scenarios#create', as: :new_scenario

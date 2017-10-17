@@ -1,0 +1,12 @@
+clearMsg();
+<% if @success && !@scenario.errors.messages.present? %>
+    // if analysis success and no error during save
+    $('#output-irr').html(<%= @scenario.irr.try(:round, 2) %>);
+<% else %>
+    $('#output-irr').html('-');
+    $('#error-msg').html('<%= flash[:error] %>');
+<% end %>
+
+<% if flash[:notice].present? %>
+    $('#notice-msg').html('<%= flash[:notice] %>');
+<% end %>

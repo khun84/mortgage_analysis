@@ -1,0 +1,72 @@
+    <%= f.label :deposit, 'Deposit %' %>
+    <br>
+    <%= f.number_field :deposit, value: input.deposit.base, min: input.deposit.min, max: input.deposit.max %>
+    <br>
+    <%= f.label :buying_price, "Total buying price (unit in '000)" %>
+    <br>
+    <%= f.number_field :buying_price, value: input.buying_price.base,
+                       min: input.buying_price.min, max: input.buying_price.max %>
+    <br>
+    <%= f.label :interest, 'Interest %' %>
+    <br>
+    <%= f.number_field :interest, value: input.interest.base,
+                       min: input.interest.min, max: input.interest.max %>
+    <br>
+    <%= f.label :tenure, 'Tenure (yrs)' %>
+    <br>
+    <%= f.range_field :tenure, type: 'range', id:'tenureInput', min: input.tenure.min, max: input.tenure.max,
+                      value: input.tenure.base, step: 1, oninput: "tenureOutput.value = tenureInput.value" %>
+    <br>
+    <output id="tenureOutput">30</output>
+    <br>
+    <%= f.label :selling_price, "Selling price (unit in '000)" %>
+    <br>
+    <%= f.number_field :selling_price, value: input.selling_price.base,
+                       min: input.selling_price.min, max: input.selling_price.max %>
+    <br>
+    <%= f.label :holding_period, "Holding period (yr)" %>
+    <br>
+    <%= f.range_field :holding_period, type: 'range', id:'holdingPeriodInput', min: input.holding_period.min,
+                      max: input.holding_period.max, value: input.holding_period.base, step: 1,
+                      oninput: "holdingPeriodOutput.value = holdingPeriodInput.value" %>
+    <br>
+    <output id="holdingPeriodOutput"><%= input.holding_period.base %></output>
+    <!--advanced scenario input starts here-->
+    <% if signed_in? %>
+    <br>
+    <%= f.label :purchase_transaction_cost %>
+    <br>
+    <%= f.number_field :purchase_transaction_cost, value: input.purchase_transaction_cost.base,
+        min: input.purchase_transaction_cost.min, max: input.purchase_transaction_cost.max %>
+    <br>
+    <%= f.label :sell_transaction_cost %>
+    <br>
+    <%= f.number_field :sell_transaction_cost, value: input.sell_transaction_cost.base,
+        min: input.sell_transaction_cost.min, max: input.sell_transaction_cost.max %>
+    <br>
+    <%= f.label :rental_period, 'Rental period in year (from - to)' %>
+    <div id="rental_period_slider"></div>
+    <br>
+    <!--to set the min and max for the slider-->
+    <%= f.hidden_field :rental_period_min, value: input.class.rental_period.min %>
+    <%= f.hidden_field :rental_period_max, value: input.class.rental_period.max %>
+
+    <%= f.label :rental_period_start, 'Rental start: ' %>
+    <%= f.number_field :rental_start, value: input.rental_period.min, disabled: true %>
+    <br>
+    <%= f.label :rental_period_start, 'Rental end: ' %>
+    <%= f.number_field :rental_end, value: input.rental_period.max, disabled: true %>
+    <br>
+    <%= f.label :rental, "Annual rental in '000" %>
+    <br>
+    <%= f.number_field :rental, value: input.rental.base, min: input.rental.min, max: input.rental.max %>
+    <% end %>
+    <!--end of advanced input-->
+    <p>Irr %</p>
+    <% if @scenario.present? %>
+        <p id="output-irr"><%= @scenario.irr.try(:round, 2) %></p>
+    <% else %>
+        <p id="output-irr">-</p>
+    <% end %>
+    <%= f.submit "Calculate" %>
+    <%= f.submit "Save" %>
