@@ -15,6 +15,8 @@
 //= require_tree .
 
 document.addEventListener("turbolinks:load", function (){
+    console.clear();
+    
     $( "#rental_period_slider" ).slider({
         range: true,
         values: [getRentalPeriodStart(),getRentalPeriodEnd()],
@@ -25,6 +27,16 @@ document.addEventListener("turbolinks:load", function (){
             $( "#scenario_rental_end" ).val(ui.values[ 1 ]);
         }
     });
+
+    $('#spinner').hide();
+
+    $(document)
+        .ajaxStart(function() {
+        $('#spinner').show();
+        })
+        .ajaxStop(function() {
+        $('#spinner').hide();
+        });
 });
 
 //clear the flash messages

@@ -15,7 +15,8 @@ Rails.application.routes.draw do
     get '/search' => 'search#new_search', as: :new_search
     get '/search/show' => 'search#show_search', as: :show_search
 
-    get '/forex' => 'forex#show', as: :forex
+    get '/forex' => 'forex#index', as: :forex
+    get '/forex/get' => 'forex#get_forex', as: :get_forex
 
     resources :users
     resources :projects do

@@ -1,0 +1,3 @@
+clearMsg();
+$('#forex-table').remove();
+$('#forex-container').append("<%= j render(partial: 'forex_result', locals:{rates: @rates}).html_safe %>");

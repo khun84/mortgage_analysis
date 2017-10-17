@@ -1,0 +1,8 @@
+<h1>
+    Forex info (USD as based)
+</h1>
+<%= button_to 'Get forex', get_forex_path, method: :get, remote: true %>
+
+<div id="forex-container">
+    <%= render partial: 'forex_result', locals: {rates: @rates} %>
+</div>
