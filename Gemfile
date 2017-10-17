@@ -41,6 +41,8 @@ gem 'figaro'
 gem 'omniauth-facebook'
 # use Omniauth to support facebook oauth login
 gem 'omniauth'
+# use Figaro for secret key management
+gem 'figaro'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
