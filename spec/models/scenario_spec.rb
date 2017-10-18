@@ -20,4 +20,12 @@ RSpec.describe Scenario, type: :model, focus: true do
             end
         end
     end
+
+    describe '#cash_flow_builder' do
+        it 'should return the cash flow' do
+            scenario = build(:scenario)
+            cash_flow = scenario.cash_flow_builder(amt: 100,len: 5,pos_arr: [2,3])
+            expect(cash_flow).to eq [0,0,100,100,0]
+        end
+    end
 end
