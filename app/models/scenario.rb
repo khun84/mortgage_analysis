@@ -252,7 +252,7 @@ class Scenario < ApplicationRecord
 
             if present_value > 0
                 min_rate = rate
-            elsif present_value < -1
+            elsif present_value < -0.5
                 max_rate = rate
             else
                 return rate
