@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Scenario, type: :model, focus: true do
+RSpec.describe Scenario, type: :model do
     describe '#calculate_irr' do
 
         context 'valid input' do

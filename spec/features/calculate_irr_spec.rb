@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'calculate_irr', type: :feature, focus: true do
+feature 'calculate_irr', type: :feature do
     scenario 'non registered user', js:true do
         visit '/'
         find('input[value="Calculate"]').click
