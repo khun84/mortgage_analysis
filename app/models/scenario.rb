@@ -37,7 +37,7 @@ class Scenario < ApplicationRecord
 
     belongs_to :project
 
-    attr_accessor :amortization
+    attr_reader :amortization
 
     def basic_analysis!
         @amortization = Amortization.new(loan_amt, rate)
@@ -63,6 +63,8 @@ class Scenario < ApplicationRecord
         end
     end
 
+    # GENERATE CASH FLOW FOR IRR CALCULATION
+    # aggregated cash flow for irr calculation
     def cf_mortgage_basic
         sum_cash_flows(self.cf_down_payment, self.cf_repayment, self.cf_settlement, self.cf_selling_price)
     end
@@ -124,6 +126,26 @@ class Scenario < ApplicationRecord
     end
     # ##########
 
+    # UNIT CONVERSION METHODS
+    # unit conversion for monetary value
+    def loan_amt
+        (self.buying_price*1000) * (1 - (self.deposit/100))
+    end
+
+    def down_payment
+        self.deposit/100 * ( self.buying_price * 1000 )
+    end
+
+    # unit conversion for time value
+    def tenure_mth
+        self.tenure*12
+    end
+
+    def holding_period_mth
+        self.holding_period*12
+    end
+
+    # align rental income period
     def rental_mth
         self.rental*1000/12
     end
@@ -135,38 +157,14 @@ class Scenario < ApplicationRecord
     def rental_end_mth
         self.rental_end*12
     end
+    #######################
 
-
-    def basic_analysis_input!
-        self.buying_price = DefaultInput.buying_price.base
-        self.deposit = DefaultInput.deposit.base
-        self.interest = DefaultInput.interest.base
-        self.tenure = DefaultInput.tenure.base
-        self.selling_price = DefaultInput.selling_price.base
-        self.holding_period = DefaultInput.holding_period.base
-        return true
-    end
-
-    def tenure_mth
-        self.tenure*12
-    end
-
-    def holding_period_mth
-        self.holding_period*12
-    end
-
+    # instantiate rate object for amortization calculation
     def rate
         Rate.new(self.interest/100, :apr, duration: self.tenure * 12)
     end
 
-    def loan_amt
-        (self.buying_price*1000) * (1 - (self.deposit/100))
-    end
-
-    def down_payment
-        self.deposit/100 * ( self.buying_price * 1000 )
-    end
-
+    # get mortgage payment if the amortization instance has been instantiated
     def payment
         if @amortization.present?
             @amortization.payment
@@ -182,7 +180,10 @@ class Scenario < ApplicationRecord
 
         total_payment - total_interest
     end
+    ########################
 
+    # CASH FLOW VECTOR METHODS
+    # sum of vectors
     def sum(array)
         array.reduce(0) {|base, ele|
             base+=ele
@@ -240,7 +241,10 @@ class Scenario < ApplicationRecord
         cash_flow
     end
 
-    # calculate irr with guessing and binary search
+    ####################
+
+    # FINANCIAL CALCULATION
+    # calculate irr using numerical computation with binary search
     def calculate_irr(min_rate, max_rate, amounts)
         while true
             range = max_rate - min_rate
@@ -252,7 +256,7 @@ class Scenario < ApplicationRecord
 
             if present_value > 0
                 min_rate = rate
-            elsif present_value < -1
+            elsif present_value < -0.5
                 max_rate = rate
             else
                 return rate
@@ -271,6 +275,18 @@ class Scenario < ApplicationRecord
         amounts.each_with_index.reduce(0) do |sum, (amount, index)|
             sum + amount * (1+rate)**(len - index)
         end
+    end
+    #########################
+    # INPUT RELATED METHODS
+    # populate dummy input for basic analysis testing purpose
+    def basic_analysis_input!
+        self.buying_price = DefaultInput.buying_price.base
+        self.deposit = DefaultInput.deposit.base
+        self.interest = DefaultInput.interest.base
+        self.tenure = DefaultInput.tenure.base
+        self.selling_price = DefaultInput.selling_price.base
+        self.holding_period = DefaultInput.holding_period.base
+        return true
     end
 
     # pass back the user input into an input object

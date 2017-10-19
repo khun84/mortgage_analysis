@@ -1,0 +1,14 @@
+example_id                                    | status | run_time        |
+--------------------------------------------- | ------ | --------------- |
+./spec/features/calculate_irr_spec.rb[1:1]    | passed | 2.57 seconds    |
+./spec/features/calculate_irr_spec.rb[1:2]    | passed | 5.88 seconds    |
+./spec/models/authentication_spec.rb[1:1:1:1] | passed | 0.014 seconds   |
+./spec/models/authentication_spec.rb[1:1:2:1] | passed | 0.00235 seconds |
+./spec/models/project_spec.rb[1:1:1:1]        | passed | 0.03392 seconds |
+./spec/models/project_spec.rb[1:1:2:1]        | passed | 0.00451 seconds |
+./spec/models/project_spec.rb[1:1:2:2]        | passed | 0.00466 seconds |
+./spec/models/project_spec.rb[1:2:1]          | passed | 0.00125 seconds |
+./spec/models/project_spec.rb[1:2:2]          | passed | 0.01031 seconds |
+./spec/models/scenario_spec.rb[1:1:1:1]       | passed | 0.00329 seconds |
+./spec/models/scenario_spec.rb[1:1:2:1]       | passed | 0.02164 seconds |
+./spec/models/scenario_spec.rb[1:2:1]         | passed | 0.00316 seconds |

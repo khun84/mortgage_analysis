@@ -39,4 +39,10 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # disbale concurrency for capybara test
+  config.allow_concurrency = false
+
+    config.middleware.use RackSessionAccess::Middleware
+
 end
