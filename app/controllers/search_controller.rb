@@ -23,7 +23,7 @@ class SearchController < ApplicationController
 
     private
     def search_params
-        params.require(:search).permit(:project_name, :scenario_name, :irr)
+        params.require(:search).permit(:project_title, :scenario_name, :irr)
     end
 
 end

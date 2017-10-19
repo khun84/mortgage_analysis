@@ -1,11 +1,11 @@
 module Search
 
-    def self.search(project_name:nil, scenario_name:nil, irr:nil)
-        Scenario.joins(:project).project_name(project_name).scenario_name(scenario_name).irr(irr)
+    def self.search(project_title:nil, scenario_name:nil, irr:nil)
+        Scenario.joins(:project).project_title(project_title).scenario_name(scenario_name).irr(irr)
 
     end
 
-    def self.project_name(name)
+    def self.project_title(name)
         if name.present?
             where("projects.title ilike ?", "%#{name}%")
         else
