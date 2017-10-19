@@ -7,7 +7,7 @@ module Search
 
     def self.project_name(name)
         if name.present?
-            where("projects.name ilike ?", "%#{name}%")
+            where("projects.title ilike ?", "%#{name}%")
         else
             all
         end
