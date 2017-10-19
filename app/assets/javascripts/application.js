@@ -29,6 +29,13 @@ document.addEventListener("turbolinks:load", function (){
 
     $('#spinner').hide();
     $('#msg-button').hide();
+
+    // page reload: show message dismiss button if there is any flash messages
+    showMsg($('#error-msg'));
+    showMsg($('#notice-msg'));
+
+
+    // ajax loading: display spinner
     $(document)
         .on("ajax:before", function() {
         $('#spinner').show();
@@ -37,7 +44,7 @@ document.addEventListener("turbolinks:load", function (){
         $('#spinner').hide();
         });
 
-    //if flash message exist, show the message and button
+    //ajax loading: if flash message exist, show the message and button
     $('#msg-container').on("DOMSubtreeModified",function () {
         showMsg($('#error-msg'));
         showMsg($('#notice-msg'));
