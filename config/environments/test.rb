@@ -42,4 +42,7 @@ Rails.application.configure do
 
   # disbale concurrency for capybara test
   config.allow_concurrency = false
+
+    config.middleware.use RackSessionAccess::Middleware
+
 end
