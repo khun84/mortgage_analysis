@@ -1,13 +1,19 @@
 <%= form_for :project, url: project_path(@project.id), method: :patch do |f| %>
-    <%= f.label :title %>
-    <br>
-    <%= f.text_field :title, value: @project.title, size: "20", maxlength: @input.project_name.max %>
-    <br>
-    <%= f.label :description %>
-    <br>
-    <%= f.text_area :description, value: @project.description, size: "100", maxlength: @input.project_description.max %>
-    <br>
-    <%= f.submit 'Confirm' %>
+    <div class="form-row">
+        <div class="form-group col-sm-6">
+            <%= f.label :title, class: 'col-form-label' %>
+            <br>
+            <%= f.text_field :title,class: 'form-control', value: @project.title, size: "20", maxlength: @input.project_name.max %>
+            <br>
+            <%= f.label :description, class: 'col-form-label' %>
+            <br>
+            <%= f.text_area :description,class: 'form-control', value: @project.description, size: "100", maxlength: @input.project_description.max %>
+            <br>
+            <%= f.submit 'Confirm', class: 'btn btn-primary' %>
+
+        </div>
+    </div>
+
 <% end %>
 
-<a href=<%= project_path(@project.id) %>>Back</a>
+<a href='<%= project_path(@project.id) %>' class='ml-4'>Back</a>

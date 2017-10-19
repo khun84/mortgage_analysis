@@ -5,46 +5,74 @@
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track'=> 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track'=> 'relaod' %>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <!--bootstrap cdn-->
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" type="text/javascript" charset="utf-8">
+
+    </script>
 </head>
 
 <body>
-    <%= link_to 'Home', root_path %>
-    <% if signed_in? %>
 
-        <%= link_to 'Projects', projects_path %>
-        <%= link_to 'Search', new_search_path %>
-        <%= link_to 'Forex', forex_path %>
-        <%= form_for :sign_out, url: sign_out_path, method: :delete do |f| %>
-            <%= f.submit 'Sign out' %>
-        <% end %>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href=<%= root_path %>>Mortgage Analysis</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <p>
-            Sign in as <%= current_user.name %>
-        </p>
-    <% else %>
-        <%= form_for :sign_up, url: '/auth/facebook' do |f| %>
-            <% f.submit 'Sign in with Facebook' %>
-        <% end %>
-    <% end %>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <%= link_to 'Home', root_path, class: 'nav-link' %>
+                </li>
+                <% if signed_in? %>
+                    <li class="nav-item">
+                        <%= link_to 'Projects', projects_path, class: 'nav-link' %>
+                    </li>
+
+                    <li class="nav-item">
+                        <%= link_to 'Search', new_search_path, class: 'nav-link' %>
+                    </li>
+
+                    <li class="nav-item">
+                        <%= link_to 'Forex', forex_path, class: 'nav-link' %>
+                    </li>
+            </ul>
+
+                    <p class="nav-link disabled my-auto"><%= current_user.name %></p>
+
+                    <%= form_for :sign_out, url: sign_out_path, method: :delete, class:'form-inline my-2 my-lg-0' do |f| %>
+                        <%= f.submit 'Sign out', class: 'btn btn-primary my-2 my-sm-0', role: 'button', type: 'submit' %>
+                    <% end %>
+
+                <% else %>
+                    <%= form_for :sign_up, url: '/auth/facebook', class:'form-inline my-2 my-lg-0' do |f| %>
+                        <% f.submit 'Sign in with Facebook', class: 'btn btn-primary my-2 my-sm-0', role: 'button' %>
+                    <% end %>
+                <% end %>
+
+        </div>
+    </nav>
 
     <div id="msg-container">
+        <% if flash[:notice] %>
+            <%= render partial: 'static/alert', locals:{message: flash[:notice], alert_type: 'success'} %>
+        <% end %>
 
-        <p id="notice-msg"><%= flash[:notice] %></p>
-
-        <p id="error-msg"><%= flash[:error] %></p>
+        <% if flash[:error] %>
+            <%= render partial: 'static/alert', locals:{message: flash[:error], alert_type: 'danger'} %>
+        <% end %>
     </div>
 
-    <%= button_tag 'Dismiss message', id: 'msg-button' %>
-
-    <p id="spinner">Loading....Please be patient....</p>
-
-
+    <div id="spinner" class="alert alert-secondary" role="alert">Loading....Please be patient....</div>
 
     <%= yield %>
 </body>

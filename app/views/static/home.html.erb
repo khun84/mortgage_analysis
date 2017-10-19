@@ -1,4 +1,9 @@
-<%= form_for :scenario, url: analyse_scenario_path, method: :post, remote: true do |f| %>
+
+<%= form_for :scenario, url: analyse_scenario_path,
+             method: :post, remote: true do |f| %>
     <%= render partial: 'scenarios/form_scenario', locals: {input: input, f: f} %>
-    <%= f.submit "Calculate" %>
+    <div class="form-group col-md-6">
+        <%= f.submit "Calculate", class: 'btn btn-primary' %>
+    </div>
 <% end %>
+

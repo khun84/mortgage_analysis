@@ -1,11 +1,19 @@
 <%= form_for :scenario, url: create_projects_scenario_path(@project.id), method: :post, remote: true do |f| %>
-    <%= f.label :name %>
-    <br>
-    <%= f.text_field :name, maxlength: @input.scenario_name.max %>
+    <div class="form-group col-md-6">
+        <%= f.label :name, class: 'col-form-label' %>
+        <br>
+        <%= f.text_field :name, maxlength: @input.scenario_name.max, class: 'form-control' %>
+    </div>
     <br>
     <%= render partial: 'form_scenario', locals: {input: @input, f: f} %>
-    <%= f.submit "Calculate" %>
-    <%= f.submit "Save" %>
+    <div class="form-group col-md-6">
+        <%= f.submit "Calculate", class: 'btn btn-primary' %>
+        <%= f.submit "Save", class: 'btn btn-primary' %>
+    </div>
 <% end %>
 
-<a href=<%= project_path(@project.id) %>>Back</a>
+<row>
+    <div class="col-md-6">
+        <a href=<%= project_path(@project.id) %>>Back</a>
+    </div>
+</row>

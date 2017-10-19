@@ -1,8 +1,10 @@
-<h1>
+<h1 class="ml-sm-4">
     Forex info (USD as based)
 </h1>
-<%= button_to 'Get forex', get_forex_path, method: :get, remote: true %>
-
-<div id="forex-container">
-    <%= render partial: 'forex_result', locals: {rates: @rates} %>
+<%= button_to 'Get forex', get_forex_path, method: :get, remote: true, class: 'btn btn-primary ml-sm-4' %>
+<br>
+<div id="forex-container" class="row m-0">
+    <div class="col-sm-4">
+        <%= render partial: 'forex_result', locals: {rates: @rates} %>
+    </div>
 </div>

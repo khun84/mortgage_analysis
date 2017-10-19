@@ -1,15 +1,24 @@
 <%= form_for :scenario, url: update_projects_scenario_path(@scenario.project_id, @scenario.id), method: :patch, remote: true do |f| %>
-    <%= f.label :name, 'Name' %>
-    <br>
-    <%= f.text_field :name %>
-    <br>
+    <div class="form-group col-md-6">
+        <%= f.label :name, 'Name', class:'col-form-label' %>
+        <br>
+        <%= f.text_field :name, class: 'form-control' %>
+        <br>
+    </div>
     <%= render partial: 'form_scenario', locals: {input: @input, f: f} %>
-    <%= f.submit "Calculate" %>
-    <%= f.submit "Save" %>
+    <div class="form-group col-md-6">
+        <%= f.submit "Calculate", class: 'btn btn-primary' %>
+        <%= f.submit "Save", class: 'btn btn-primary' %>
+    </div>
 <% end %>
+<row>
+    <div class="col-sm-6">
+        <%= form_for :scenario, url: project_scenario_path(@scenario.project_id, @scenario.id),
+                     method: :delete do |f| %>
+            <%= f.submit 'Delete', class:'btn btn-danger', data: { confirm: 'Are you sure?'} %>
+        <% end %>
+        <br>
+        <a href=<%= project_path(@scenario.project_id) %>>Back</a>
 
-<%= form_for :scenario, url: project_scenario_path(@scenario.project_id, @scenario.id), method: :delete do |f| %>
-    <%= f.submit 'Delete', data: { confirm: 'Are you sure?'} %>
-<% end %>
-
-<a href=<%= project_path(@scenario.project_id) %>>Back</a>
+    </div>
+</row>

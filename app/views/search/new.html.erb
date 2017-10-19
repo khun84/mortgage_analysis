@@ -1,16 +1,23 @@
 <%= form_for :search, url: show_search_path, method: :get, remote: true do |f| %>
-    <%= f.label :project_title %>
-    <%= f.text_field :project_title, maxlength: @input.project_name.max %>
-    <br>
-    <%= f.label :scenario_name %>
-    <%= f.text_field :scenario_name, maxlength: @input.project_name.max %>
-    <br>
-    <%= f.label :irr, "IRR % >=" %>
-    <%= f.number_field :irr , min: 0%>
-    <br>
-    <%= f.submit 'Search' %>
+    <div class="form-row">
+        <div class="form-group col-sm-4">
+            <%= f.label :project_title, class: 'col-form-label' %>
+            <%= f.text_field :project_title,class: 'form-control', maxlength: @input.project_name.max %>
+            <%= f.label :scenario_name, class: 'col-form-label' %>
+            <%= f.text_field :scenario_name,class: 'form-control', maxlength: @input.project_name.max %>
+            <%= f.label :irr, "IRR % >=", class: 'col-form-label' %>
+            <%= f.number_field :irr, class: 'form-control', min: 0%>
+            <br>
+            <%= f.submit 'Search', class: 'btn btn-primary' %>
+        </div>
+    </div>
 <% end %>
+<hr>
 
-<div id="search-results-container">
+<div class="row">
+    <div class="col-sm-6">
+        <div id="search-results-container">
 
+        </div>
+    </div>
 </div>
