@@ -2,7 +2,10 @@
     <%= f.label :name %>
     <br>
     <%= f.text_field :name, maxlength: @input.scenario_name.max %>
+    <br>
     <%= render partial: 'form_scenario', locals: {input: @input, f: f} %>
+    <%= f.submit "Calculate" %>
+    <%= f.submit "Save" %>
 <% end %>
 
 <a href=<%= project_path(@project.id) %>>Back</a>

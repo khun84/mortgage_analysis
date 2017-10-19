@@ -4,6 +4,8 @@
     <%= f.text_field :name %>
     <br>
     <%= render partial: 'form_scenario', locals: {input: @input, f: f} %>
+    <%= f.submit "Calculate" %>
+    <%= f.submit "Save" %>
 <% end %>
 
 <%= form_for :scenario, url: project_scenario_path(@scenario.project_id, @scenario.id), method: :delete do |f| %>
