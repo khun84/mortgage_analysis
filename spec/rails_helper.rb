@@ -72,3 +72,11 @@ Capybara.configure do |config|
     config.default_max_wait_time = 10 # seconds
     config.default_driver        = :selenium
 end
+
+# configure shoulda matcher
+Shoulda::Matchers.configure do |config|
+    config.integrate do |with|
+        with.test_framework :rspec
+        with.library :rails
+    end
+end

@@ -71,6 +71,7 @@ end
 group :test do
     # use rack_session_access to set access and set session variable in feature test
     gem 'rack_session_access'
+    gem 'shoulda-matchers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
