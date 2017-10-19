@@ -1,9 +1,13 @@
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Project Name</th>
-        <th>Scenario Name</th>
-        <th>IRR %</th>
-    </tr>
-    <%= render(partial: 'search/search_result', collection: @scenarios, as: :scenario).html_safe %>
+<table class="table" id="search-results-table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Project Name</th>
+            <th>Scenario Name</th>
+            <th>IRR %</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(partial: 'search/search_result', collection: @scenarios, as: :scenario).html_safe %>
+    </tbody>
 </table>

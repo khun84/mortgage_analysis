@@ -28,12 +28,6 @@ document.addEventListener("turbolinks:load", function (){
     });
 
     $('#spinner').hide();
-    $('#msg-button').hide();
-
-    // page reload: show message dismiss button if there is any flash messages
-    showMsg($('#error-msg'));
-    showMsg($('#notice-msg'));
-
 
     // ajax loading: display spinner
     $(document)
@@ -44,24 +38,12 @@ document.addEventListener("turbolinks:load", function (){
         $('#spinner').hide();
         });
 
-    //ajax loading: if flash message exist, show the message and button
-    $('#msg-container').on("DOMSubtreeModified",function () {
-        showMsg($('#error-msg'));
-        showMsg($('#notice-msg'));
-    });
-
-    //clear the flash message and hide the button
-    $('#msg-button').click(function (event) {
-        clearMsg();
-        $(event.target).hide();
-    });
-
 });
 
 //clear the flash messages
 function clearMsg() {
-    $('#error-msg').html('');
-    $('#notice-msg').html('');
+    $('#error-msg p').html('');
+    $('#notice-msg p').html('');
 }
 
 function getRentalPeriodMin() {
@@ -82,8 +64,9 @@ function getRentalPeriodEnd() {
 
 function showMsg($msg) {
     if($msg.html().length > 0){
-        console.log($msg.html().length);
-        $('#msg-button').show();
+        $msg.parent().show();
+    }else{
+        $msg.parent().hide();
     }
 }
 
