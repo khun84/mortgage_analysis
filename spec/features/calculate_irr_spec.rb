@@ -9,7 +9,7 @@ feature 'calculate_irr', type: :feature do
         expect(irr).to be_within(0.5).of(32.3)
     end
 
-    scenario 'registered user', js:true, focus: true do
+    scenario 'registered user', js:true do
         user = create(:user)
         page.set_rack_session('user_id'=>user.id)
 

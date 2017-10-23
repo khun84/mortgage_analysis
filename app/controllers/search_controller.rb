@@ -13,10 +13,12 @@ class SearchController < ApplicationController
     end
 
     def show_search
-        @scenarios = Scenario.search(search_params).includes(:project).order('projects.title, scenarios.name, scenarios.irr desc')
-
+        # @scenarios = Scenario.search(search_params).includes(:project).order('projects.title, scenarios.name, scenarios.irr desc')
+        @projects = Project.search_all(search_params)
+                            .select('projects.id' ,'scenarios.id as scenario_id', 'projects.title', 'scenarios.name as scenario_name', 'scenarios.irr')
+                            .order('projects.title, scenarios.name, scenarios.irr desc')
         respond_to do |format|
-            format.html {render partial: 'index', collection: @scenarios, as: :scenario}
+            format.html {render partial: 'index', collection: @projects, as: :project}
             format.js { render 'search_result' }
         end
     end

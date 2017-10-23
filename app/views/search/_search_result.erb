@@ -1,16 +1,20 @@
 <tr>
     <td>
-        <a href=<%= project_scenario_path(scenario.project_id, scenario.id) %>>
-            <%= scenario.id %>
+        <% if project.scenario_id.present? %>
+            <a href=<%= project_scenario_path(project.id, project.scenario_id) %>>
+                <%= project.scenario_id %>
+            </a>
+        <% end %>
+    </td>
+    <td>
+        <a href=<%= project_path(project.id) %>>
+            <%= project.title %>
         </a>
     </td>
     <td>
-        <%= scenario.project.title %>
+        <%= project.scenario_name %>
     </td>
     <td>
-        <%= scenario.name %>
-    </td>
-    <td>
-        <%= scenario.irr.try(:round, 2) %>
+        <%= project.irr.try(:round, 2) %>
     </td>
 </tr>

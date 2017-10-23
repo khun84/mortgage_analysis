@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
     include ScenariosExtension
+    include ScenariosExtension::Search
     validates :title, presence: true, length: {in: DefaultInput.project_name.min..DefaultInput.project_name.max}
     validates :description, length: {maximum: DefaultInput.project_description.max, too_long: "%{count} characters is the maximum allowed"}
 

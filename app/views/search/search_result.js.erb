@@ -1,2 +1,4 @@
 $('#search-results-table').remove();
-$('#search-results-container').html('<%= j render(partial: 'search/index').html_safe %>');
+<% if @projects.present? %>
+    $('#search-results-container').html('<%= j render(partial: 'search/index').html_safe %>');
+<% end %>

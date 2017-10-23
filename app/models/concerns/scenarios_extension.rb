@@ -92,13 +92,18 @@ module ScenariosExtension
 
         module ClassMethods
             def search(params={})
-                joins(:project).project_name(params.dig(:project_name))
+                joins(:project).project_name(params.dig(:project_title))
+                        .scenario_name(params.dig(:scenario_name)).irr(params.dig(:irr))
+            end
+
+            def search_all(params={})
+                left_joins(:scenarios).project_name(params.dig(:project_title))
                         .scenario_name(params.dig(:scenario_name)).irr(params.dig(:irr))
             end
 
             def project_name(name)
                 if name.present?
-                    where("projects.name ilike ?", "%#{name}%")
+                    where("projects.title ilike ?", "%#{name}%")
                 else
                     all
                 end
