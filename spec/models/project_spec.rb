@@ -1,7 +1,7 @@
 require 'rails_helper'
 include ScenariosExtension
 
-RSpec.describe Project, type: :model, focus: true do
+RSpec.describe Project, type: :model do
     describe 'validations' do
         context 'validates project title' do
             it { is_expected.to validate_presence_of(:title) }

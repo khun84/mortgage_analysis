@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Authentication, type: :model do
+RSpec.describe Authentication, type: :model, focus: true do
     describe '#create_from_omniauth' do
         context 'with returned auth_hash from facebook' do
             it 'should return a new authentication instance' do
